@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  
+  <title>Todo app</title>
+</head>
+<body id="body">
+  <div class="todo-section">
+    <div class="header">
+      <h1>TODO</h1>
+      <img src="/images/icon-moon.svg" alt="theme-toggle" class = "toggle" id = "toggle">
+    </div>
+
+    <div class="create-item" id="create-item">
+      <input type="checkbox" id = "c1" name= "c1">
+      <label for="c1">
+        <input type="text" placeholder="Create a new todo..." id="inputEl"> 
+      </label>
+    </div>
+
+    <section id="list-section">
+      <div class="list">
+        <ul id = "list-values"></ul>
+      </div>
+          
+      <footer>
+        <span id="left">0 items left</span>
+
+        <div class="filters">
+          <span id = "all">All</span>
+          <span id = "active">Active</span>
+          <span id = "completed">Completed</span>
+        </div>
+
+        <span id="right">Clear Completed</span>
+      </footer>
+    </section>
+  </div>
+
+  <h6>Drag and Drop to reorder list</h6>
+
+  <script src="script.js"></script>
+</body>
+</html>
