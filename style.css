@@ -14,7 +14,7 @@
 }
 
 body {
-    background: url("/images/bg-desktop-light.jpg");
+    background: url("./images/bg-desktop-light.jpg");
     background-repeat: no-repeat;
 }
 
@@ -92,7 +92,7 @@ label::before {
 }
 
 li label:hover::before{
-    content: url('/images/icon-check.svg');
+    content: url('./images/icon-check.svg');
     background-position: center;
     background: hsl(278, 65%, 42%);
     border-color: hsl(278, 65%, 42%);
@@ -115,7 +115,7 @@ li input[type="checkbox"]:checked+label::before {
     margin-right: 30px;
     width: 27px;
     height: 27px;
-    content: url('/images/icon-check.svg');
+    content: url('./images/icon-check.svg');
 }
 
 section {
@@ -208,7 +208,7 @@ h6 {
 
 @media (max-width: 500px) {
     body {
-        background-image: url('/images/bg-mobile-light.jpg') no-repeat !important;
+        background-image: url('./images/bg-mobile-light.jpg') no-repeat !important;
         background-size: cover!important;
     }
 
