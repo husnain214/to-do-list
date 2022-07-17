@@ -20,10 +20,10 @@ toggle.addEventListener("click", ()=>{
         root.style.setProperty('--bd-color', "rgb(151, 151, 151)");
         root.style.setProperty('--bd-color2', "rgb(75, 75, 75)");
         toggle.src = "/images/icon-sun.svg" 
-        body.style.background = "url('/images/bg-desktop-dark.jpg') no-repeat"
+        body.style.background = "url('./images/bg-desktop-dark.jpg') no-repeat"
 
         if(window.innerWidth < 500) {
-            body.style.background = "url('/images/bg-mobile-dark.jpg') no-repeat"
+            body.style.background = "url('./images/bg-mobile-dark.jpg') no-repeat"
         }
     }
     else {
@@ -31,11 +31,11 @@ toggle.addEventListener("click", ()=>{
         root.style.setProperty('--li-color', "#202020");
         root.style.setProperty('--bd-color', "hsl(192, 100%, 67%)");
         root.style.setProperty('--bd-color2', "rgb(218, 218, 218)");
-        toggle.src = "/images/icon-moon.svg" 
-        body.style.background = "url('/images/bg-desktop-light.jpg') no-repeat"
+        toggle.src = "./images/icon-moon.svg" 
+        body.style.background = "url('./images/bg-desktop-light.jpg') no-repeat"
 
         if(window.innerWidth < 500) {
-            body.style.background = "url('/images/bg-mobile-light.jpg') no-repeat"
+            body.style.background = "url('./images/bg-mobile-light.jpg') no-repeat"
         }
     }
 })
@@ -70,7 +70,7 @@ function renderList () {
                 <p id = "item">${listValues[i]}</p>
             </label>
 
-            <img src="/images/icon-cross.svg" alt="checkbox" class="deleteBtn" id="${i}">
+            <img src="./images/icon-cross.svg" alt="checkbox" class="deleteBtn" id="${i}">
         </li>
         ` 
     }
