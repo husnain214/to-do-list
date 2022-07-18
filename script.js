@@ -19,7 +19,7 @@ toggle.addEventListener("click", ()=>{
         root.style.setProperty('--li-color', "hsl(0, 0%, 98%)");
         root.style.setProperty('--bd-color', "rgb(151, 151, 151)");
         root.style.setProperty('--bd-color2', "rgb(75, 75, 75)");
-        toggle.src = "/images/icon-sun.svg" 
+        toggle.src = "./images/icon-sun.svg" 
         body.style.background = "url('./images/bg-desktop-dark.jpg') no-repeat"
 
         if(window.innerWidth < 500) {
