@@ -1,17 +1,18 @@
 const toggle = document.getElementById("toggle") 
 const inputEl = document.getElementById("inputEl") 
 const root = document.querySelector(':root') 
-const inputBtn = document.getElementById("c1") 
+const inputBtn = document.getElementById("i1") 
 const unorderedList = document.getElementById("list-values")
 const itemsLeft = document.getElementById("left") 
+const delItems = document.getElementById("right") 
 const allItems = document.getElementById("all") 
 const activeItems = document.getElementById("active") 
-const completedItems = document.getElementById("completed") 
+const completedItems = document.getElementById("completed")
 
 let listCount = 0
 let listValues = []
 
-toggle.addEventListener("click", ()=>{
+toggle.addEventListener("click", () => {
     body.classList.toggle("dark-mode")
 
     if (body.classList.contains("dark-mode")) {
@@ -19,11 +20,11 @@ toggle.addEventListener("click", ()=>{
         root.style.setProperty('--li-color', "hsl(0, 0%, 98%)");
         root.style.setProperty('--bd-color', "rgb(151, 151, 151)");
         root.style.setProperty('--bd-color2', "rgb(75, 75, 75)");
-        toggle.src = "./images/icon-sun.svg" 
-        body.style.background = "url('./images/bg-desktop-dark.jpg') no-repeat"
+        toggle.src = "/images/icon-sun.svg" 
+        body.style.background = "url('/images/bg-desktop-dark.jpg') no-repeat"
 
         if(window.innerWidth < 500) {
-            body.style.background = "url('./images/bg-mobile-dark.jpg') no-repeat"
+            body.style.background = "url('/images/bg-mobile-dark.jpg') no-repeat"
         }
     }
     else {
@@ -31,11 +32,11 @@ toggle.addEventListener("click", ()=>{
         root.style.setProperty('--li-color', "#202020");
         root.style.setProperty('--bd-color', "hsl(192, 100%, 67%)");
         root.style.setProperty('--bd-color2', "rgb(218, 218, 218)");
-        toggle.src = "./images/icon-moon.svg" 
-        body.style.background = "url('./images/bg-desktop-light.jpg') no-repeat"
+        toggle.src = "/images/icon-moon.svg" 
+        body.style.background = "url('/images/bg-desktop-light.jpg') no-repeat"
 
         if(window.innerWidth < 500) {
-            body.style.background = "url('./images/bg-mobile-light.jpg') no-repeat"
+            body.style.background = "url('/images/bg-mobile-light.jpg') no-repeat"
         }
     }
 })
@@ -51,7 +52,7 @@ inputBtn.addEventListener("click", (event)=> {
 })
 
 inputEl.addEventListener("keypress", (event)=>{
-    if(event.key==="Enter" && inputEl.value != "") {
+    if(event.key === "Enter" && inputEl.value != "") {
         listValues.push(inputEl.value)
 
         renderList()
@@ -64,13 +65,13 @@ function renderList () {
     for (let i = 0; i < listValues.length; i++) {
         content += `
         <li id="list-elements">
-            <input type="checkbox" id = "cb" name= "cb">
+            <input type="checkbox" id = "c${i+1}" name= "cb" value = "${i}">
                                             
             <label for="c${i+1}">
                 <p id = "item">${listValues[i]}</p>
             </label>
 
-            <img src="./images/icon-cross.svg" alt="checkbox" class="deleteBtn" id="${i}">
+            <img src="/images/icon-cross.svg" alt="checkbox" class="deleteBtn" id="${i}">
         </li>
         ` 
     }
@@ -89,6 +90,78 @@ body.addEventListener("click", function (event) {
         renderList()
     }
 })
+
+delItems.addEventListener ("click", () => {
+    listValues = ""
+    listCount = 0
+
+    renderList ()
+})
+
+completedItems.addEventListener ("click", () => {
+    let checkbox = document.querySelectorAll ("input[type='checkbox']")
+     
+    let checked = []
+    
+    for (let i = 0; i < checkbox.length; i++) {
+        if (checkbox[i].checked) checked.push (parseInt(checkbox[i].value))
+    }
+ 
+    unorderedList.innerHTML = ""
+    let content = ""
+
+    for (let i = 0; i < listValues.length; i++) {
+        if (checked.includes (i))
+        content += `
+        <li id="list-elements">
+            <input type="checkbox" id = "c${i+1}" name= "cb" value = "${i}" checked="checked">
+                                            
+            <label for="c${i+1}">
+                <p id = "item">${listValues[i]}</p>
+            </label>
+
+            <img src="/images/icon-cross.svg" alt="checkbox" class="deleteBtn" id="${i}">
+        </li>
+        ` 
+    }
+
+    unorderedList.innerHTML = content
+})
+
+activeItems.addEventListener ("click", () => {
+    let checkbox = document.querySelectorAll ("input[type='checkbox']")
+     
+    let checked = []
+    
+    for (let i = 0; i < checkbox.length; i++) {
+        if (!checkbox[i].checked) checked.push (parseInt(checkbox[i].value))
+    }
+ 
+    unorderedList.innerHTML = ""
+    let content = ""
+
+    for (let i = 0; i < listValues.length; i++) {
+        if (checked.includes (i))
+        content += `
+        <li id="list-elements">
+            <input type="checkbox" id = "c${i+1}" name= "cb" value = "${i}">
+                                            
+            <label for="c${i+1}">
+                <p id = "item">${listValues[i]}</p>
+            </label>
+
+            <img src="/images/icon-cross.svg" alt="checkbox" class="deleteBtn" id="${i}">
+        </li>
+        ` 
+    }
+
+    unorderedList.innerHTML = content
+})
+
+allItems.addEventListener ("click", () => {
+    renderList ()
+})
+
 
 
 
