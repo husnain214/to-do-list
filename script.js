@@ -1,13 +1,13 @@
 const toggle = document.getElementById("toggle") 
 const inputEl = document.getElementById("inputEl") 
 const root = document.querySelector(':root') 
-const inputBtn = document.getElementById("i1") 
 const unorderedList = document.getElementById("list-values")
 const itemsLeft = document.getElementById("left") 
 const delItems = document.getElementById("right") 
 const allItems = document.getElementById("all") 
 const activeItems = document.getElementById("active") 
 const completedItems = document.getElementById("completed")
+
 
 let listCount = 0
 let listValues = []
@@ -41,19 +41,9 @@ toggle.addEventListener("click", () => {
     }
 })
 
-inputBtn.addEventListener("click", (event)=> {
-    if (inputEl.value != "") {
-        listValues.push(inputEl.value)
-
-        listCount++
-
-        renderList()
-    }
-})
-
 inputEl.addEventListener("keypress", (event)=>{
     if(event.key === "Enter" && inputEl.value != "") {
-        listValues.push(inputEl.value)
+        listValues.push({text:inputEl.value, status: "unchecked"})
 
         renderList()
     }
@@ -63,23 +53,41 @@ function renderList () {
     let content = ''
 
     for (let i = 0; i < listValues.length; i++) {
-        content += `
-        <li id="list-elements">
-            <input type="checkbox" id = "c${i+1}" name= "cb" value = "${i}">
-                                            
-            <label for="c${i+1}">
-                <p id = "item">${listValues[i]}</p>
-            </label>
+        if (listValues[i].status === "checked") { //CHECKED ITEMS
+            content += `
+            <li id="list-elements">
+                <input type="checkbox" id = "c${i+1}" name= "cb" value = "${i}" checked>
+                                                
+                <label for="c${i+1}">
+                    <p id = "item">${listValues[i].text}</p>
+                </label>
 
-            <img src="/images/icon-cross.svg" alt="checkbox" class="deleteBtn" id="${i}">
-        </li>
-        ` 
+                <img src="/images/icon-cross.svg" alt="checkbox" class="deleteBtn" id="${i}">
+            </li>
+            ` 
+        }
+        else { //UNCHECKED ITEMS
+            content += `
+            <li id="list-elements">
+                <input type="checkbox" id = "c${i+1}" name= "cb" value = "${i}">
+                                                
+                <label for="c${i+1}">
+                    <p id = "item">${listValues[i].text}</p>
+                </label>
+
+                <img src="/images/icon-cross.svg" alt="checkbox" class="deleteBtn" id="${i}">
+            </li>
+            ` 
+        }
+        
     }
 
     itemsLeft.innerText =  `${listValues.length} items Left`
     unorderedList.innerHTML = content
     inputEl.value = ""
 }
+
+// Delte Button
 
 body.addEventListener("click", function (event) {
     if (event.target.classList.contains("deleteBtn")) {
@@ -91,6 +99,8 @@ body.addEventListener("click", function (event) {
     }
 })
 
+// Delete All
+
 delItems.addEventListener ("click", () => {
     listValues = ""
     listCount = 0
@@ -98,69 +108,69 @@ delItems.addEventListener ("click", () => {
     renderList ()
 })
 
-completedItems.addEventListener ("click", () => {
-    let checkbox = document.querySelectorAll ("input[type='checkbox']")
-     
-    let checked = []
-    
-    for (let i = 0; i < checkbox.length; i++) {
-        if (checkbox[i].checked) checked.push (parseInt(checkbox[i].value))
-    }
- 
-    unorderedList.innerHTML = ""
-    let content = ""
-
-    for (let i = 0; i < listValues.length; i++) {
-        if (checked.includes (i))
-        content += `
-        <li id="list-elements">
-            <input type="checkbox" id = "c${i+1}" name= "cb" value = "${i}" checked="checked">
-                                            
-            <label for="c${i+1}">
-                <p id = "item">${listValues[i]}</p>
-            </label>
-
-            <img src="/images/icon-cross.svg" alt="checkbox" class="deleteBtn" id="${i}">
-        </li>
-        ` 
-    }
-
-    unorderedList.innerHTML = content
-})
+// Unchecked Items
 
 activeItems.addEventListener ("click", () => {
-    let checkbox = document.querySelectorAll ("input[type='checkbox']")
-     
-    let checked = []
-    
-    for (let i = 0; i < checkbox.length; i++) {
-        if (!checkbox[i].checked) checked.push (parseInt(checkbox[i].value))
-    }
- 
-    unorderedList.innerHTML = ""
-    let content = ""
+    let content = ''
 
-    for (let i = 0; i < listValues.length; i++) {
-        if (checked.includes (i))
-        content += `
-        <li id="list-elements">
-            <input type="checkbox" id = "c${i+1}" name= "cb" value = "${i}">
-                                            
-            <label for="c${i+1}">
-                <p id = "item">${listValues[i]}</p>
-            </label>
+    listValues.forEach (item => {
+        if (item.status === "unchecked") {
 
-            <img src="/images/icon-cross.svg" alt="checkbox" class="deleteBtn" id="${i}">
-        </li>
-        ` 
-    }
+            content += `
+            <li id="list-elements">                                                
+                <label>
+                    <p id = "item">${item.text}</p>
+                </label>
+            </li>
+            ` 
+            unorderedList.innerHTML = content
+        }
+    })
+})
 
-    unorderedList.innerHTML = content
+// Completed Items
+
+completedItems.addEventListener("click", () => {
+    let content = ''
+
+    listValues.forEach (item => {
+        if (item.status === "checked") {
+            content += `
+            <li id="list-elements">                                                
+                <label>
+                    <p id = "item">${item.text}</p>
+                </label>
+            </li>
+            ` 
+            unorderedList.innerHTML = content
+        }
+    })
 })
 
 allItems.addEventListener ("click", () => {
     renderList ()
 })
+
+// This keeps track of the status of every checkbox and updates "status" in array accordingly
+
+setInterval(()=>{
+    const checkbox = document.querySelectorAll (`input[type="checkbox"]`)
+    
+    checkbox.forEach(c=>{
+        c.addEventListener ("click", (e)=>{
+
+            for (let i = 0; i < listValues.length; i++) {
+                if (e.target.id === "c" + (i + 1)) {
+                    if (e.target.checked) listValues[i].status="checked";
+                    else listValues[i].status="unchecked";
+                }
+            }
+        })
+    })
+}, 1000)
+
+
+
 
 
 
